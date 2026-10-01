@@ -1,0 +1,6 @@
+{
+  "name": "NexChat",
+  "description": "Fast, private, disappearing communication app with stories and clean local business advertising.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
