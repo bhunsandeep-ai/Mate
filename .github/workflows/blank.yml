@@ -23,41 +23,26 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Check project structure
-        run: |
-          echo "===== PROJECT FILES ====="
-          find . -maxdepth 3 -type f | sort | head -300
-          echo "===== GRADLE ====="
-          find . -name "gradlew" -type f -print
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+
+      - name: Generate Gradle Wrapper
+        run: gradle wrapper
 
       - name: Make Gradle wrapper executable
-        run: |
-          if [ -f "./gradlew" ]; then
-            chmod +x ./gradlew
-          elif [ -f "./android/gradlew" ]; then
-            chmod +x ./android/gradlew
-          else
-            echo "ERROR: gradlew was not found."
-            exit 1
-          fi
+        run: chmod +x ./gradlew
 
       - name: Build Debug APK
-        run: |
-          if [ -f "./gradlew" ]; then
-            ./gradlew assembleDebug
-          elif [ -f "./android/gradlew" ]; then
-            cd android
-            ./gradlew assembleDebug
-          fi
+        run: ./gradlew assembleDebug
 
       - name: Find APK
-        run: |
-          find . -type f -name "*.apk" -print
+        run: find . -type f -name "*.apk" -print
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: Mate-debug-apk
-          path: |
-            **/build/outputs/apk/debug/*.apk
+          path: '**/build/outputs/apk/debug/*.apk'
           if-no-files-found: error
