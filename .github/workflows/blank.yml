@@ -28,14 +28,8 @@ jobs:
         with:
           gradle-version: '8.9'
 
-      - name: Generate Gradle Wrapper
-        run: gradle wrapper
-
-      - name: Make Gradle wrapper executable
-        run: chmod +x ./gradlew
-
       - name: Build Debug APK
-        run: ./gradlew assembleDebug
+        run: gradle :app:assembleDebug
 
       - name: Find APK
         run: find . -type f -name "*.apk" -print
